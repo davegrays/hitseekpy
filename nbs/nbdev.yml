@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "hitseekpy"
+  site-url: "https://davegrays.github.io/hitseekpy"
+  description: "python implementation of HiTSeekR"
+  repo-branch: main
+  repo-url: "https://github.com/davegrays/hitseekpy"

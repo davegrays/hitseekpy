@@ -14,6 +14,9 @@ pip install hitseekpy
 
 ## How to use
 
+https://davegrays.github.io/hitseekpy/
+
+
 ``` python
 import pandas as pd
 

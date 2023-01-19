@@ -4,6 +4,10 @@
 __all__ = ['get_percentages_of_controls', 'get_npis', 'get_z_scores', 'get_b_scores', 'get_ssmd']
 
 # %% ../nbs/00_scores.ipynb 6
+from typing import Union, List, Tuple
+import numpy as np
+
+
 def _plate_idx_to_flat(index_list: List[Tuple[int, int]], to_shape: Tuple[int, int]):
     multi_index_np = np.array(list(zip(*index_list)))
     return np.ravel_multi_index(multi_index_np, to_shape)

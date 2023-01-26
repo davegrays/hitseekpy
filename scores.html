@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Get scores (z/b/npi/%) for each well">
+
+<title>hitseekpy - scores</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="hitseekpy - scores">
+<meta property="og:description" content="Get scores (z/b/npi/%) for each well">
+<meta property="og:site-name" content="hitseekpy">
+<meta name="twitter:title" content="hitseekpy - scores">
+<meta name="twitter:description" content="Get scores (z/b/npi/%) for each well">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">hitseekpy</span>
+    </a>
+  </div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">scores</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">hitseekpy</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./scores.html" class="sidebar-item-text sidebar-link active">scores</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#get_ssmd" id="toc-get_ssmd" class="nav-link active" data-scroll-target="#get_ssmd">get_ssmd</a></li>
+  <li><a href="#get_b_scores" id="toc-get_b_scores" class="nav-link" data-scroll-target="#get_b_scores">get_b_scores</a></li>
+  <li><a href="#get_z_scores" id="toc-get_z_scores" class="nav-link" data-scroll-target="#get_z_scores">get_z_scores</a></li>
+  <li><a href="#get_npis" id="toc-get_npis" class="nav-link" data-scroll-target="#get_npis">get_npis</a></li>
+  <li><a href="#get_percentages_of_controls" id="toc-get_percentages_of_controls" class="nav-link" data-scroll-target="#get_percentages_of_controls">get_percentages_of_controls</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/davegrays/hitseekpy/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">scores</h1>
+</div>
+
+<div>
+  <div class="description">
+    Get scores (z/b/npi/%) for each well
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> hitseekpy.proc <span class="im">import</span> Plate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load plate data and make sure wells are properly labeled</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"assay.1156.0009.tsv"</span>, delimiter<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"WELL"</span>, <span class="st">"RAW_VALUE_A"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>WELL</th>
+      <th>RAW_VALUE_A</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A01</td>
+      <td>1960.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>A02</td>
+      <td>1400.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>A03</td>
+      <td>1600.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A04</td>
+      <td>1560.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>A05</td>
+      <td>1640.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>379</th>
+      <td>P20</td>
+      <td>1800.0</td>
+    </tr>
+    <tr>
+      <th>380</th>
+      <td>P21</td>
+      <td>1240.0</td>
+    </tr>
+    <tr>
+      <th>381</th>
+      <td>P22</td>
+      <td>1520.0</td>
+    </tr>
+    <tr>
+      <th>382</th>
+      <td>P23</td>
+      <td>1200.0</td>
+    </tr>
+    <tr>
+      <th>383</th>
+      <td>P24</td>
+      <td>1480.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>384 rows × 2 columns</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract well values into a 2d array</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> Plate(df, n_rows<span class="op">=</span><span class="dv">16</span>, n_cols<span class="op">=</span><span class="dv">24</span>, well_column<span class="op">=</span><span class="st">"WELL"</span>, value_column<span class="op">=</span><span class="st">"RAW_VALUE_A"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># check that they match the df</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(p.vals[<span class="dv">0</span>, :<span class="dv">5</span>])</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(p.vals[<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">5</span>:])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1960. 1400. 1600. 1560. 1640.]
+[1800. 1240. 1520. 1200. 1480.]</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/davegrays/hitseekpy/blob/main/hitseekpy/scores.py#L61" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="get_ssmd" class="level3">
+<h3 class="anchored" data-anchor-id="get_ssmd">get_ssmd</h3>
+<blockquote class="blockquote">
+<pre><code> get_ssmd (pop_1, pop_2)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/davegrays/hitseekpy/blob/main/hitseekpy/scores.py#L32" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_b_scores" class="level3">
+<h3 class="anchored" data-anchor-id="get_b_scores">get_b_scores</h3>
+<blockquote class="blockquote">
+<pre><code> get_b_scores (vals:&lt;built-infunctionarray&gt;, iters:int=5)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/davegrays/hitseekpy/blob/main/hitseekpy/scores.py#L27" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_z_scores" class="level3">
+<h3 class="anchored" data-anchor-id="get_z_scores">get_z_scores</h3>
+<blockquote class="blockquote">
+<pre><code> get_z_scores (vals:&lt;built-infunctionarray&gt;, robust:bool=True)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/davegrays/hitseekpy/blob/main/hitseekpy/scores.py#L20" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_npis" class="level3">
+<h3 class="anchored" data-anchor-id="get_npis">get_npis</h3>
+<blockquote class="blockquote">
+<pre><code> get_npis (vals:&lt;built-infunctionarray&gt;,
+           pos_control_idx:List[Tuple[int,int]],
+           neg_control_idx:List[Tuple[int,int]])</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/davegrays/hitseekpy/blob/main/hitseekpy/scores.py#L15" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_percentages_of_controls" class="level3">
+<h3 class="anchored" data-anchor-id="get_percentages_of_controls">get_percentages_of_controls</h3>
+<blockquote class="blockquote">
+<pre><code> get_percentages_of_controls (vals:&lt;built-infunctionarray&gt;,
+                              control_idx:List[Tuple[int,int]])</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>get_b_scores(p.vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'normalized': array([[ 2.26025391e+00, -8.49609375e-01,  8.83789062e-01,
+          5.75927734e-01,  1.80175781e-01,  1.71679688e+00,
+          1.63574219e-02,  1.56030273e+00,  2.36328125e-01,
+         -9.89746094e-01, -1.36718750e-02, -9.62158203e-01,
+         -5.50781250e-01,  1.08422852e+00, -5.41503906e-01,
+         -1.88940430e+00, -1.29956055e+00,  1.52124023e+00,
+         -3.34228516e-01, -9.61669922e-01,  1.90625000e+00,
+          1.65600586e+00, -1.42382812e+00, -1.67382812e+00],
+        [-3.15429688e-01,  2.32470703e+00,  5.58105469e-01,
+          2.44140625e-04,  3.54492188e-01, -1.35888672e+00,
+         -5.59326172e-01,  2.98461914e+00,  1.60644531e-01,
+          1.68457031e+00, -8.39355469e-01,  3.46215820e+00,
+         -3.76464844e-01,  5.08544922e-01, -3.67187500e-01,
+          7.84912109e-01, -6.25244141e-01, -3.04443359e-01,
+         -2.40991211e+00, -3.73535156e-02, -6.69433594e-01,
+          8.03222656e-02,  2.75048828e+00,  4.88281250e-04],
+        [ 7.27539062e-01, -1.63232422e+00,  1.01074219e-01,
+         -2.06787109e-01,  3.97460938e-01, -2.56591797e+00,
+         -1.63574219e-02,  1.77758789e+00, -4.63867188e-02,
+         -1.52246094e+00, -5.46386719e-01,  5.12695312e-03,
+          1.66650391e+00, -4.69848633e+00,  1.75781250e-01,
+         -1.67211914e+00, -2.08227539e+00,  7.38525391e-01,
+          1.13305664e+00,  2.55615234e-01, -1.37646484e+00,
+          3.73291016e-01,  2.93457031e-01, -3.20654297e+00],
+        [-2.31591797e+00, -6.75781250e-01,  1.05761719e+00,
+         -2.44140625e-04,  1.04003906e-01, -6.09375000e-01,
+         -8.09814453e-01, -7.65869141e-01,  6.60156250e-01,
+          1.43408203e+00, -1.33984375e+00,  2.71166992e+00,
+         -2.12695312e+00,  1.75805664e+00,  8.82324219e-01,
+         -1.46557617e+00, -6.37573242e+00,  4.45068359e-01,
+          8.39599609e-01, -2.87841797e-01,  1.08007812e+00,
+          1.32983398e+00,  0.00000000e+00,  0.00000000e+00],
+        [-1.47460938e+00,  1.91552734e+00, -1.01074219e-01,
+         -6.58935547e-01,  2.44531250e+00,  4.81933594e-01,
+         -9.68505859e-01,  2.32543945e+00,  1.25146484e+00,
+         -1.22460938e+00, -4.98535156e-01, -2.94702148e+00,
+         -1.53564453e+00,  8.49365234e-01, -7.76367188e-01,
+          1.25732422e-01, -1.53442383e+00,  5.36376953e-01,
+          4.30908203e-01,  1.80346680e+00, -1.82861328e+00,
+         -1.57885742e+00,  1.34130859e+00,  3.41308594e-01],
+        [ 2.26074219e-01, -1.33789062e-01, -1.40039062e+00,
+          5.41748047e-01, -1.04003906e-01,  1.43261719e+00,
+         -2.67822266e-01,  5.26123047e-01, -7.97851562e-01,
+         -2.39257812e-02,  2.20214844e+00,  3.66210938e-03,
+         -8.34960938e-01,  5.00488281e-02, -5.75683594e-01,
+          1.32641602e+00,  2.01662598e+01, -2.51293945e+00,
+         -1.18408203e-01, -8.24584961e+00,  3.72070312e-01,
+          2.37182617e+00, -4.58007812e-01,  1.29199219e+00],
+        [-2.26074219e-01,  1.64062500e-01,  3.97460938e-01,
+         -9.10400391e-01, -1.80615234e+00, -1.95312500e-02,
+          2.80029297e-01,  5.73974609e-01,  0.00000000e+00,
+          5.23925781e-01,  0.00000000e+00, -1.98486328e-01,
+          9.62890625e-01,  5.97900391e-01,  1.97216797e+00,
+         -1.25732422e-01,  7.14111328e-01, -9.65087891e-01,
+         -5.70556641e-01,  2.05200195e+00, -8.00781250e-02,
+         -2.33032227e+00, -9.10156250e-01,  3.39843750e-01],
+        [-1.15527344e+00, -2.65136719e-01, -1.03173828e+00,
+          1.66040039e+00, -2.48535156e+00, -6.98730469e-01,
+          8.50830078e-01, -6.05224609e-01,  7.08007812e-02,
+          8.44726562e-01, -1.79199219e-01,  4.62231445e+00,
+          2.03369141e+00, -8.12988281e-02,  2.92968750e-01,
+          4.45068359e-01, -4.65087891e-01, -3.94287109e-01,
+          2.50244141e-01, -1.27197266e-01,  9.90722656e-01,
+          2.99047852e+00,  6.60644531e-01, -8.39355469e-01],
+        [ 7.18750000e-01,  1.10888672e+00, -1.40771484e+00,
+          1.28442383e+00,  1.38671875e-01,  6.75292969e-01,
+         -2.51464844e-02, -2.31201172e-01, -5.51757812e-02,
+         -2.81250000e-01,  1.94824219e-01, -3.66210938e-03,
+          6.57714844e-01, -1.70727539e+00,  4.91699219e+00,
+          8.19091797e-01, -5.91064453e-01, -2.02636719e-02,
+          8.74267578e-01, -2.53173828e-01,  2.61474609e+00,
+         -2.13549805e+00, -1.46533203e+00, -9.65332031e-01],
+        [-2.26074219e-01,  9.14062500e-01, -1.85253906e+00,
+          1.83959961e+00,  1.93847656e-01, -2.69531250e-01,
+         -1.46997070e+00,  7.39746094e-02,  0.00000000e+00,
+          2.39257812e-02,  0.00000000e+00, -1.98486328e-01,
+          7.12890625e-01,  5.84790039e+00, -1.77783203e+00,
+          3.37426758e+00,  1.21411133e+00, -4.65087891e-01,
+         -1.82055664e+00, -1.94799805e+00,  2.66992188e+00,
+         -8.03222656e-02,  8.98437500e-02, -6.60156250e-01],
+        [ 5.59082031e-01, -1.80078125e+00,  2.18261719e+00,
+         -1.25244141e-01, -1.52099609e+00,  5.15625000e-01,
+          1.56518555e+00, -6.40869141e-01, -1.21484375e+00,
+         -1.69091797e+00,  2.78515625e+00, -1.41333008e+00,
+         -2.51953125e-01,  8.83056641e-01,  1.00732422e+00,
+         -8.40576172e-01,  2.49926758e+00, -6.42993164e+00,
+          2.71459961e+00,  1.33715820e+00,  3.20507812e+00,
+         -2.95166016e-01,  1.25000000e-01, -1.25000000e-01],
+        [-2.12402344e+00, -1.48388672e+00, -2.50488281e-01,
+          1.19165039e+00, -9.54101562e-01,  8.32519531e-01,
+          2.38208008e+00, -7.39746094e-02,  1.10205078e+00,
+          3.75976562e-01,  3.52050781e-01, -8.46435547e-01,
+         -1.43505859e+00, -5.00488281e-02, -1.75781250e-01,
+          9.76318359e-01,  6.61621094e-02,  3.86962891e-01,
+          3.14941406e-02,  2.15405273e+00, -1.72802734e+00,
+         -4.78271484e-01, -1.05810547e+00,  1.91894531e-01],
+        [-1.74072266e+00,  3.99414062e-01, -3.67187500e-01,
+         -1.67504883e+00, -8.20800781e-01, -3.41796875e-02,
+          1.26538086e+00, -1.90673828e-01,  9.85351562e-01,
+         -3.74072266e+00,  9.85351562e-01,  2.53686523e+00,
+         -8.01757812e-01, -4.16748047e-01,  1.70751953e+00,
+         -6.40380859e-01,  1.99462891e-01,  2.02636719e-02,
+          1.41479492e+00,  3.73535156e-02, -5.94726562e-01,
+          1.65502930e+00,  7.51953125e-02, -4.24804688e-01],
+        [ 1.74365234e+00,  1.33789062e-01,  2.11718750e+00,
+          8.09326172e-01,  1.63574219e-01,  7.00195312e-01,
+          2.49755859e-01,  1.79370117e+00, -1.78027344e+00,
+         -1.00634766e+00, -5.30273438e-01,  5.21240234e-01,
+          2.68261719e+00, -7.68237305e+00,  9.41894531e-01,
+         -1.56005859e-01, -6.61621094e-02, -4.95361328e-01,
+         -8.50830078e-01, -6.47827148e+00, -8.60351562e-01,
+         -1.10595703e-01, -6.90429688e-01,  5.95703125e-02],
+        [ 1.68408203e+00, -1.67578125e+00,  5.57617188e-01,
+         -1.50024414e+00, -3.95996094e-01, -8.59375000e-01,
+          6.90185547e-01, -7.65869141e-01, -5.58984375e+00,
+          1.68408203e+00,  1.41015625e+00,  4.61669922e-01,
+          3.73046875e-01, -9.91943359e-01, -6.17675781e-01,
+         -4.65576172e-01,  1.24267578e-01,  1.69506836e+00,
+         -1.16040039e+00,  4.62158203e-01,  8.00781250e-02,
+         -4.92016602e+00,  0.00000000e+00,  0.00000000e+00],
+        [ 5.62988281e-01,  1.45312500e+00, -5.63476562e-01,
+         -6.21337891e-01, -2.67089844e-01,  1.95312500e-02,
+         -9.30908203e-01, -1.36962891e-01, -1.71093750e+00,
+          3.31298828e+00,  3.90625000e-02, -4.09423828e-01,
+          2.51953125e-01, -3.63037109e-01, -7.38769531e-01,
+          2.66333008e+00,  5.03173828e-01,  8.23974609e-01,
+         -3.14941406e-02,  2.59106445e+00, -7.91015625e-01,
+          1.70874023e+00, -6.21093750e-01,  1.28906250e-01]]),
+ 'row_effect': array([  38.359375 ,  -24.0625   , -101.40625  ,  -92.1484375,
+          51.171875 ,    5.3125   ,   -2.6171875,  -89.6484375,
+          42.1875   ,   38.359375 ,    2.1875   ,   73.9453125,
+           8.125    ,  146.5234375,  -73.359375 ,  -17.6953125,
+          47.9296875,   76.6015625,  -66.5234375,  -46.1328125,
+         -65.       , -184.9609375, -132.1875   ,   27.8125   ]),
+ 'column_effect': array([  50.6640625, -177.2265625,   55.8984375,  102.8515625,
+          88.2421875,  -23.8671875,    8.4765625,   -2.8515625,
+          57.3046875,    8.4765625,    2.8515625,   -7.8515625,
+         -69.1796875, -106.6796875,  -97.1484375,  -77.7734375])}</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
